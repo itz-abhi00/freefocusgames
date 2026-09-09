@@ -67,6 +67,16 @@
                 }
             },
             "gameUI": {
+                "modes": {
+                    "label": "计时模式",
+                    "standard": "可见计时",
+                    "hidden": "隐藏计时",
+                    "standardHint": "观察计时器，尽可能在 10 秒时停止。",
+                    "hiddenHint": "停止后才显示时间。",
+                    "running": "凭感觉判断，认为过了 10 秒时按下停止。",
+                    "standardLeaderboard": "可见计时排行榜",
+                    "hiddenLeaderboard": "隐藏计时排行榜"
+                },
                 "start": "开始挑战",
                 "stop": "停止",
                 "retry": "再试一次",

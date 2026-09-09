@@ -67,6 +67,16 @@
                 }
             },
             "gameUI": {
+                "modes": {
+                    "label": "Timer mode",
+                    "standard": "Visible Timer",
+                    "hidden": "Hidden Timer",
+                    "standardHint": "Watch the timer and stop as close to 10 seconds as you can.",
+                    "hiddenHint": "The timer stays hidden until you stop.",
+                    "running": "Trust your timing. Stop when you think 10 seconds have passed.",
+                    "standardLeaderboard": "Visible Timer Leaderboard",
+                    "hiddenLeaderboard": "Hidden Timer Leaderboard"
+                },
                 "start": "Start Timer",
                 "stop": "STOP!",
                 "retry": "Try Again",

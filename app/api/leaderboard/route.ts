@@ -518,6 +518,9 @@ function validateScore(
             }
             return null;
         case "challenge10Seconds":
+            if (mode !== DEFAULT_LEADERBOARD_MODE && mode !== "hidden") {
+                return "Score rejected (Unsupported timing mode)";
+            }
             if (score < 0 || score > 60000) {
                 return "Score rejected (Outside expected timing range)";
             }

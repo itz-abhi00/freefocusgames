@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { use } from 'react'
 import { generateAlternates } from '@/lib/utils'
 import { routing } from '@/i18n/routing'
+import { TimingModeProvider, TimingLeaderboard } from './components/TimingMode'
 
 // Generate static params for all locales
 export function generateStaticParams() {
@@ -101,6 +102,7 @@ export default function Challenge10SecondsPage({ params }: { params: Promise<{ l
     ];
 
     return (
+        <TimingModeProvider>
         <GamePageTemplate
             gameId="challenge10Seconds"
             title={t('title')}
@@ -154,8 +156,10 @@ export default function Challenge10SecondsPage({ params }: { params: Promise<{ l
             relatedGames={["reaction-time", "spacebar-clicker", "cps-test"]}
             hasLeaderboard={true}
             leaderboardFormatterType="sec4"
+            leaderboardComponent={<TimingLeaderboard />}
             leaderboardIntro={<p>{t('gameUI.leaderboardDescription')}</p>}
             structuredData={structuredData}
         />
+        </TimingModeProvider>
     );
 }

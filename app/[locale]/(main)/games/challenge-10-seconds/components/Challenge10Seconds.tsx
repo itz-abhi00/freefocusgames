@@ -9,6 +9,7 @@ import { ProgressShareModal } from '@/components/ui/ProgressShareModal';
 import { toast } from "sonner"; // Assuming sonner is used for toasts
 import { SevenSegmentDigit, SevenSegmentDot } from './SevenSegmentDisplay';
 import { submitScoreToLeaderboard } from '@/lib/leaderboard';
+import { useTimingMode } from './TimingMode';
 import {
     getProgressInsights,
     type ProgressCardData,
@@ -33,6 +34,7 @@ const getRankKey = (difference: number): RankKey => {
 };
 
 export default function Challenge10Seconds() {
+    const { mode, setMode } = useTimingMode();
     const locale = useLocale();
     const t = useTranslations('games.challenge10Seconds');
     const tRank = useTranslations('games.challenge10Seconds.gameUI.rank');
@@ -48,6 +50,7 @@ export default function Challenge10Seconds() {
     const requestRef = useRef<number>(0);
     const hasSubmittedLeaderboardRef = useRef(false);
     const hasRecordedProgressRef = useRef(false);
+    const runningRef = useRef(false);
 
     useEffect(() => {
         return () => cancelAnimationFrame(requestRef.current);
@@ -56,6 +59,7 @@ export default function Challenge10Seconds() {
     // Add keyboard support
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.repeat || isShareModalOpen || (e.target instanceof HTMLElement && e.target.closest('button, input, textarea, select, [contenteditable="true"]'))) return;
             if (e.code === 'Space') {
                 e.preventDefault(); // Prevent scrolling
                 if (gameState === 'RUNNING') {
@@ -69,7 +73,7 @@ export default function Challenge10Seconds() {
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameState]); // Re-bind when main state changes to capture latest closure
+    }, [gameState, mode, isShareModalOpen]);
 
     const updateTimer = () => {
         const now = performance.now();
@@ -79,6 +83,9 @@ export default function Challenge10Seconds() {
     };
 
     const startGame = () => {
+        if (runningRef.current) return;
+        runningRef.current = true;
+        setTime(0);
         setGameState('RUNNING');
         setDiff(0);
         setRank('');
@@ -87,10 +94,12 @@ export default function Challenge10Seconds() {
         hasSubmittedLeaderboardRef.current = false;
         hasRecordedProgressRef.current = false;
         startTimeRef.current = performance.now();
-        requestRef.current = requestAnimationFrame(updateTimer);
+        if (mode === 'standard') requestRef.current = requestAnimationFrame(updateTimer);
     };
 
     const stopGame = () => {
+        if (!runningRef.current) return;
+        runningRef.current = false;
         cancelAnimationFrame(requestRef.current);
         const now = performance.now();
         const finalTime = (now - startTimeRef.current) / 1000;
@@ -106,19 +115,19 @@ export default function Challenge10Seconds() {
 
         if (!hasSubmittedLeaderboardRef.current) {
             hasSubmittedLeaderboardRef.current = true;
-            void submitScoreToLeaderboard('challenge10Seconds', displayedTime * 1000);
+            void submitScoreToLeaderboard('challenge10Seconds', displayedTime * 1000, { mode });
         }
 
         if (!hasRecordedProgressRef.current) {
             hasRecordedProgressRef.current = true;
             const errorMs = difference * 1000;
-            const history = recordProgressSnapshot(PROGRESS_STORAGE_KEY, errorMs);
+            const history = recordProgressSnapshot(mode === 'standard' ? PROGRESS_STORAGE_KEY : `${PROGRESS_STORAGE_KEY}-hidden`, errorMs);
             const insights = getProgressInsights(history, 'lower');
 
             setProgressCard({
                 variant: 'score',
                 title: t('gameUI.cardTitle'),
-                subtitle: t('gameUI.cardSubtitle'),
+                subtitle: `${t('gameUI.cardSubtitle')} · ${t(`gameUI.modes.${mode}`)}`,
                 primaryLabel: t('gameUI.stopTime'),
                 primaryValue: formatSeconds(displayedTime),
                 trendText: t('gameUI.cardTaunt', { value: formatSignedError(difference) }),
@@ -152,6 +161,8 @@ export default function Challenge10Seconds() {
     };
 
     const resetGame = () => {
+        cancelAnimationFrame(requestRef.current);
+        runningRef.current = false;
         setGameState('IDLE');
         setTime(0);
         setDiff(0);
@@ -190,10 +201,39 @@ export default function Challenge10Seconds() {
         <>
         <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-8 p-4">
 
+            <fieldset className="text-center space-y-3" disabled={gameState === 'RUNNING'}>
+                <legend className="sr-only">{t('gameUI.modes.label')}</legend>
+                <div role="tablist" aria-label={t('gameUI.modes.label')} className="inline-flex rounded-xl bg-muted p-1 gap-1 ring-1 ring-border/50">
+                    {(['standard', 'hidden'] as const).map((option) => (
+                        <button key={option} type="button" role="tab" id={`timing-tab-${option}`}
+                            aria-selected={mode === option} aria-controls="timing-panel"
+                            tabIndex={mode === option ? 0 : -1}
+                            className={`min-h-11 rounded-lg px-5 sm:px-6 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${mode === option ? 'bg-background text-foreground shadow-sm ring-1 ring-border/50' : 'text-muted-foreground hover:text-foreground hover:bg-background/50'}`}
+                            onKeyDown={(event) => {
+                                if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                                event.preventDefault();
+                                const next = event.key === 'Home' ? 'standard' : event.key === 'End' ? 'hidden' : option === 'standard' ? 'hidden' : 'standard';
+                                resetGame();
+                                setMode(next);
+                                document.getElementById(`timing-tab-${next}`)?.focus();
+                            }}
+                            onClick={() => { resetGame(); setMode(option); }}>
+                            {t(`gameUI.modes.${option}`)}
+                        </button>
+                    ))}
+                </div>
+                <p className="text-sm text-muted-foreground">{t(`gameUI.modes.${mode}Hint`)}</p>
+            </fieldset>
+
+            <div role="tabpanel" id="timing-panel" aria-labelledby={`timing-tab-${mode}`} className="contents">
             {/* Timer Display */}
             <div className="w-full h-64 md:h-80 bg-red-600 rounded-3xl shadow-2xl flex flex-col items-center justify-center relative overflow-hidden ring-8 ring-red-700 p-6">
                 <div className="inline-flex bg-black rounded-lg border-4 border-gray-800 items-center justify-center gap-1 sm:gap-2 relative shadow-inner px-4 py-4">
-                    {formatTime(time).split('').map((char, index) => {
+                    {mode === 'hidden' && gameState === 'RUNNING' ? (
+                        <div className="flex h-[44px] sm:h-[100px] items-center justify-center px-4 text-center text-red-400" role="status">
+                            {t('gameUI.modes.running')}
+                        </div>
+                    ) : formatTime(time).split('').map((char, index) => {
                         const color = gameState === 'STOPPED'
                             ? (diff < 0.01 ? '#22c55e' : (diff < 0.1 ? '#eab308' : '#dc2626'))
                             : '#dc2626';
@@ -237,7 +277,7 @@ export default function Challenge10Seconds() {
                 )}
 
                 {gameState === 'RUNNING' && (
-                    <Button onClick={stopGame} size="lg" variant="destructive" className="w-64 h-24 text-3xl animate-pulse">
+                    <Button onClick={stopGame} size="lg" variant="destructive" className={`w-64 h-24 text-3xl ${mode === 'standard' ? 'animate-pulse' : ''}`}>
                         {t('gameUI.stop')}
                     </Button>
                 )}
@@ -279,14 +319,14 @@ export default function Challenge10Seconds() {
                     </motion.div>
                 )}
             </AnimatePresence>
-
+            </div>
         </div>
 
             <ProgressShareModal
                 isOpen={isShareModalOpen}
                 onClose={() => setIsShareModalOpen(false)}
                 card={progressCard}
-                fileName="10-second-challenge-card.png"
+                fileName={`10-second-challenge-${mode}-card.png`}
             />
         </>
     );
