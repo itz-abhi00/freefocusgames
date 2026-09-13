@@ -111,8 +111,10 @@ export const categories: Category[] = [
     icon: "Zap",
     keywords: [
       "reaction time training",
+      "reaction games",
       "improve response speed",
       "faster reflexes exercises",
+      "reflex games",
       "quick reaction games",
       "speed training cognitive",
       "processing speed improvement",

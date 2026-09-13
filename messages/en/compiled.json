@@ -7,12 +7,12 @@
       "metadata": {
         "title": "10 Second Challenge Online: Stop the Timer at 10s",
         "description": "Play the 10 second timer challenge online. Start the timer, stop at exactly 10.0000 seconds, compare your score, and learn how to win.",
-        "keywords": "10 second challenge online, 10 second challenge, 10 seconds challenge, ten second challenge, 10 sec challenge, 10 second timer challenge game, stop the timer at exactly 10 seconds, stop at 10 seconds game, time stop challenge game, 10 second challenge timer, 10 second challenge machine, how to win 10 second challenge, 10 seconds game",
+        "keywords": "10 second challenge online, 10 second challenge, 10 seconds challenge, ten second challenge, 10 sec challenge, 10 second timer challenge game, stop the timer at exactly 10 seconds, stop at 10 seconds game, time stop game, time stop challenge game, 10 second challenge timer, 10 second challenge machine, how to win 10 second challenge, 10 seconds game",
         "ogTitle": "10 Second Challenge Online: Stop the Timer at 10s",
         "ogDescription": "Play the 10 second timer challenge online. Start the timer, stop at exactly 10.0000 seconds, compare your score, and learn how to win."
       },
       "howToPlay": {
-        "description": "The rules are simple, but perfection is hard: this is a time stop challenge game where your goal is to stop as close to 10.0000 seconds as possible.",
+        "description": "The rules are simple, but perfection is hard: this time stop game is a timer challenge where your goal is to stop as close to 10.0000 seconds as possible.",
         "step1": "Click 'Start Timer' to begin the 10 second challenge timer.",
         "step2": "Watch the numbers (or close your eyes and count).",
         "step3": "Click 'STOP!' exactly when you think the timer has reached 10.0000 seconds.",
@@ -1495,12 +1495,12 @@
       "metadata": {
         "title": "Reaction Time Test Online: Check Your Reflexes in Milliseconds",
         "description": "Check your reaction time online with a simple visual reaction time test. Measure reaction speed in milliseconds, compare against average human results, and track your consistency.",
-        "keywords": "reaction time test, check reaction time, reaction speed test, human benchmark reaction time, response time test, reaction timer game, visual reaction time test",
+        "keywords": "reaction time test, reaction time game, reaction game, reaction test game, check reaction time, reaction speed test, human benchmark reaction time, response time test, reaction timer game, visual reaction time test",
         "ogTitle": "Reaction Time Test Online: Check Your Reflexes in Milliseconds",
         "ogDescription": "Check your reaction time online with a simple visual reaction time test. Measure reaction speed in milliseconds and compare your result against average human performance."
       },
       "howToPlay": {
-        "description": "This simple reaction time test measures how quickly you react when the screen changes color.",
+        "description": "This reaction time game measures how quickly you react when the screen changes color. It is a simple reaction game, often called a reaction test game, that gives you a repeatable visual response-speed score.",
         "step1": "Wait for the screen to turn green",
         "step2": "Click or tap as quickly as possible when the color changes",
         "step3": "See your reaction time in milliseconds",
@@ -2458,9 +2458,9 @@
       "subtitle": "A clean online spacebar speed test built for short keyboard tapping rounds, quick score checks, and low-friction replay",
       "description": "Test how many times you can hit the space bar in 5, 10, or 30 seconds. This free online spacebar clicker works as a quick keyboard speed test with clean visuals, local best scores, and mobile tap support.",
       "metadata": {
-        "title": "Spacebar Clicker Test: Free Spacebar Speed Test Online",
-        "description": "Try this free online spacebar clicker test to measure how fast you can hit the space bar in short timed rounds. Compare your tapping speed across 5, 10, and 30 seconds.",
-        "keywords": "spacebar clicker, space bar clicker, spacebar click test, space bar click test, spacebar speed test, spacebar cps test, space bar counter, keyboard speed test",
+        "title": "Space Bar Clicker Test: Free Spacebar Speed Test Online",
+        "description": "Try this free online space bar clicker test to measure how fast you can hit the space bar in short timed rounds. Compare your tapping speed across 5, 10, and 30 seconds.",
+        "keywords": "space bar clicker test, spacebar clicker, space bar clicker, spacebar click test, space bar click test, spacebar speed test, spacebar cps test, space bar counter, keyboard speed test",
         "ogTitle": "Spacebar Clicker Test: Free Spacebar Speed Test Online",
         "ogDescription": "Measure your spacebar speed in 5, 10, or 30 seconds with this clean online keyboard tapping test."
       },
@@ -2474,7 +2474,7 @@
         "keyLabel": "Key"
       },
       "howToPlay": {
-        "description": "This page is a lightweight keyboard speed test. It counts how many valid spacebar presses you can make in a short round and turns that into an easy taps-per-second benchmark.",
+        "description": "This space bar clicker test is a lightweight keyboard speed test. It counts how many valid spacebar presses you can make in a short round and turns that into an easy taps-per-second benchmark.",
         "step1": "Choose a round length: 5, 10, or 30 seconds",
         "step2": "Press the space bar on your keyboard, or tap the on-screen key on touch devices",
         "step3": "The timer starts on your first valid press",
@@ -2856,7 +2856,7 @@
       "sustained-attention": "Games that build your ability to maintain focus over extended periods. Enhanced sustained attention helps students stay engaged during long lectures, professionals maintain productivity throughout the workday, and everyone complete tasks without mental wandering.",
       "selective-attention": "Games that improve your ability to focus on relevant information while filtering out distractions. Better selective attention helps students study in noisy environments, professionals concentrate in busy offices, and everyone maintain focus despite interruptions.",
       "divided-attention": "Games that develop your ability to effectively split attention between multiple tasks or stimuli. Enhanced divided attention helps parents monitor children while completing household tasks, professionals handle concurrent responsibilities, and drivers safely navigate while being aware of surroundings.",
-      "reaction-time": "Games that sharpen your speed of response to visual or auditory stimuli. Faster reaction time helps athletes perform better, drivers respond quickly to road hazards, and older adults prevent falls.",
+      "reaction-time": "Browse reaction games and reflex games that sharpen your speed of response to visual or auditory stimuli. Faster reaction time helps athletes perform better, drivers respond quickly to road hazards, and older adults prevent falls.",
       "cognitive-flexibility": "Games that enhance your ability to switch between different concepts or adapt to changing rules. Greater cognitive flexibility helps students apply knowledge across subjects, professionals adapt to changing work requirements, and everyone navigate social situations more effectively.",
       "spatial-memory": "Games that strengthen your ability to remember and manipulate spatial information. Strong spatial memory helps with navigation, remembering object locations, understanding maps, and visualizing 3D structures. This skill is crucial for activities like parking, finding items, following directions, and excelling in STEM fields.",
       "adhd-games": "A curated collection of games scientifically proven to help manage ADHD symptoms. These exercises target working memory, inhibition control, and sustained attention—key executive functions often impaired in ADHD.",
@@ -2927,8 +2927,10 @@
       },
       "reaction-time": {
         "reaction time training": "Reaction time training",
+        "reaction games": "Reaction games",
         "improve response speed": "Improve response speed",
         "faster reflexes exercises": "Faster reflexes exercises",
+        "reflex games": "Reflex games",
         "quick reaction games": "Quick reaction games",
         "speed training cognitive": "Speed training cognitive",
         "processing speed improvement": "Processing speed improvement",
