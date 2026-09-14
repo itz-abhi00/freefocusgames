@@ -43,18 +43,22 @@ export default function WordMemoryTest({ onComplete }: WordMemoryTestProps) {
 
   const submitRecall = useCallback(() => {
     const userWords = userInputs
-      .map(input => input.trim())
+      .map(input => input.trim().toLowerCase())
       .filter(word => word.length > 0);
 
     const correctWordsFound = currentWords.filter(word =>
       userWords.some(userWord =>
-        userWord === word || word.includes(userWord) || userWord.includes(word)
+        userWord === word.toLowerCase() ||
+        word.toLowerCase().includes(userWord) ||
+        userWord.includes(word.toLowerCase())
       )
     );
 
     const missedWordsFound = currentWords.filter(word =>
       !userWords.some(userWord =>
-        userWord === word || word.includes(userWord) || userWord.includes(word)
+        userWord === word.toLowerCase() ||
+        word.toLowerCase().includes(userWord) ||
+        userWord.includes(word.toLowerCase())
       )
     );
 
@@ -261,4 +265,4 @@ export default function WordMemoryTest({ onComplete }: WordMemoryTestProps) {
   }
 
   return null;
-} 
+}
