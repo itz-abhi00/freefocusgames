@@ -30,7 +30,6 @@ import TrustpilotSection from "@/components/trustpilot-section";
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
-// 为首页定义特定的元数据
 export async function generateMetadata(
     { params }: { params: Promise<{ locale: string }> }
 ): Promise<Metadata> {
@@ -39,18 +38,13 @@ export async function generateMetadata(
     const t = await getTranslations({ locale, namespace: 'home' });
 
     return {
-        // 首页特定标题
         title: t('metaTitle'),
-        // 首页特定描述
         description: t('metaDescription'),
-        // 首页特定关键词
         keywords: t('metaKeywords').split(',').map(keyword => keyword.trim()),
-        // 首页特定 Open Graph 数据
         openGraph: {
             title: t('ogTitle'),
             description: t('ogDescription'),
         },
-        // 多语言替代版本
         alternates: generateAlternates(locale),
     };
 }
@@ -90,7 +84,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         }
     ];
 
-    // Schema Markup for SEO
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebSite",
@@ -99,7 +92,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         "description": t("home.metaDescription")
     };
 
-    // 第一组评价
     const firstRowReviews = [
         {
             name: testimonials('sarah.name'),
@@ -133,7 +125,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         },
     ];
 
-    // 第二组评价
     const secondRowReviews = [
         {
             name: testimonials('tom.name'),
@@ -349,7 +340,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                         if (!mainGame) return null;
                         return (
                             <div className="grid grid-cols-1 gap-4 no-ads-inside sm:gap-6 lg:grid-cols-3">
-                                {/* Main Featured Breathing Game */}
                                 <div className="lg:col-span-2 relative group overflow-hidden rounded-3xl bg-gray-50 dark:bg-zinc-900 border border-border transition-all hover:shadow-xl">
                                     <div className="flex flex-col-reverse md:flex-row h-full">
                                         <div className="relative z-10 flex flex-1 flex-col justify-center gap-4 bg-white/50 p-5 backdrop-blur-sm dark:bg-black/20 sm:p-8 md:bg-transparent md:backdrop-blur-none">
@@ -377,7 +367,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                                     </div>
                                 </div>
 
-                                {/* Side Breathing Cards */}
                                 <div className="grid h-full grid-rows-2 gap-4 sm:gap-6">
                                     {sideGames.map(game => (
                                         <Link
@@ -563,7 +552,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     </div>
                 </section>
 
-
                 {/* Science Behind Section */}
                 <section className="mb-20 max-w-4xl mx-auto px-2 text-center sm:mb-24 sm:px-6">
                     <div className="rounded-2xl border border-border bg-muted/30 p-5 py-7 dark:bg-muted/10 sm:rounded-3xl sm:p-12">
@@ -646,9 +634,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                                                     <h3 className="text-lg font-semibold">
                                                         {review.name}
                                                     </h3>
-                                                    <h4 className="text-sm text-muted-foreground">
+                                                    <p className="text-sm text-muted-foreground">
                                                         {review.username}
-                                                    </h4>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <blockquote className="mt-2 text-sm">
@@ -667,15 +655,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
                 {/* Trustpilot Reviews Section */}
                 <TrustpilotSection />
-            </div>
-        </>
-    );
-}
-{/* Trustpilot Reviews Section */}
-                <TrustpilotSection />
 
-                {/* --- ABHIJEET'S CUSTOM FOOTER --- */}
-                <footer className="mt-10 p-5 text-center font-mono text-[#ffcc00] tracking-[2px] border-t border-[#ffcc00]">
+                {/* Custom Footer */}
+                <footer className="mt-12 p-6 text-center font-mono text-[#00ff41] tracking-[2px] border-t border-[#00ff41]">
                     SYS.ADMIN: ABHIJEET GIRI - STROOP_EFFECT_V1
                 </footer>
             </div>
