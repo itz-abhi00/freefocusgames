@@ -185,3 +185,41 @@
 .no-ads-inside .google-auto-placed {
   display: none !important;
 }
+/* --- ABHIJEET'S CUSTOM RETRO STYLES --- */
+
+body {
+  background-color: #121212 !important;
+  color: #00ff41 !important; /* Classic terminal green */
+  font-family: 'Courier New', Courier, monospace !important;
+  position: relative;
+}
+
+/* Vintage CRT Screen Grain Effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Make buttons look like old arcade buttons */
+button {
+  background-color: #222 !important;
+  border: 2px solid #00ff41 !important;
+  color: #00ff41 !important;
+  text-transform: uppercase;
+  border-radius: 0px !important;
+  box-shadow: 4px 4px 0px #00ff41 !important;
+  transition: all 0.1s ease;
+}
+
+button:active {
+  box-shadow: 0px 0px 0px #00ff41 !important;
+  transform: translate(4px, 4px);
+}
