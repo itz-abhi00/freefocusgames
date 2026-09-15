@@ -36,7 +36,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     Are you faster than your friends?
                 </p>
 
-                <Link href="/games/stroop-task"> 
+                <Link href="/games/stroop-effect-test"> 
                     <button className="text-2xl md:text-3xl font-bold px-12 py-6 bg-[#222] border-2 border-[#00ff41] text-[#00ff41] uppercase shadow-[6px_6px_0px_#00ff41] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#00ff41] transition-all">
                         INSERT COIN TO PLAY
                     </button>
