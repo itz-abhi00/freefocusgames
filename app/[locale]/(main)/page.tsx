@@ -671,15 +671,23 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </>
     );
 }
-{/* Custom Footer */}
-<footer style={{
-  marginTop: '40px',
-  padding: '20px',
-  textAlign: 'center',
-  fontFamily: 'monospace',
-  color: '#ffcc00',
-  letterSpacing: '2px',
-  borderTop: '1px solid #ffcc00'
-}}>
-  SYS.ADMIN: ABHIJEET GIRI // STROOP_EFFECT_V1
-</footer>
+{/* Trustpilot Reviews Section */}
+                <TrustpilotSection />
+
+                {/* --- ABHIJEET'S CUSTOM FOOTER --- */}
+                <footer style={{
+                  marginTop: '40px',
+                  padding: '20px',
+                  textAlign: 'center',
+                  fontFamily: 'monospace',
+                  color: '#ffcc00',
+                  letterSpacing: '2px',
+                  borderTop: '1px solid #ffcc00'
+                }}>
+                  SYS.ADMIN: ABHIJEET GIRI // STROOP_EFFECT_V1
+                </footer>
+
+            </div>
+        </>
+    );
+}
