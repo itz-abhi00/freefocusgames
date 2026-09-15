@@ -3,6 +3,13 @@ import { Link } from "@/i18n/navigation";
 
 export const dynamic = "force-dynamic";
 
+// We tell TypeScript exactly what a "Score" looks like so it doesn't crash!
+type ScoreRecord = {
+  id: number;
+  player_name: string;
+  score: number;
+};
+
 export default async function Leaderboard({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -10,7 +17,7 @@ export default async function Leaderboard({ params }: { params: Promise<{ locale
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/stroop_scores?order=score.desc&limit=10`;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  let scores = [];
+  let scores: ScoreRecord[] = [];
   try {
     const res = await fetch(url, {
       headers: {
@@ -43,7 +50,7 @@ export default async function Leaderboard({ params }: { params: Promise<{ locale
           </thead>
           <tbody>
             {scores && scores.length > 0 ? (
-              scores.map((s: any, i: number) => (
+              scores.map((s: ScoreRecord, i: number) => (
                 <tr key={s.id} className="border-b border-[#00ff41]/30 hover:bg-[#00ff41]/10 transition-colors">
                   <td className="py-4 text-[#ffcc00] font-bold">{i + 1}</td>
                   <td className="py-4 uppercase">{s.player_name}</td>
