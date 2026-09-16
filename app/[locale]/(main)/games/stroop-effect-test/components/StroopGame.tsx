@@ -104,7 +104,7 @@ export default function StroopGame() {
       sessionStartedAtRef.current = Date.now();
     }
 
-    const isCongruent = Math.random() < GAME_CONFIG.difficulties.medium.congruentRatio;
+    const isCongruent = false; // HARD MODE: The word and color will NEVER match!
     const trial = generateTrial(COLORS, isCongruent);
 
     setCurrentRound(roundNumber);
