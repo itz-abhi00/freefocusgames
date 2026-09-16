@@ -1,19 +1,8 @@
-const PLAYER_ID_KEY = "freefocusgames.leaderboard.player-id";
+"use client";
 
 export interface LeaderboardSubmissionOptions {
     mode?: string;
     details?: Record<string, boolean | number | string | null | undefined>;
-}
-
-function getLeaderboardPlayerId() {
-    const existingId = localStorage.getItem(PLAYER_ID_KEY);
-    if (existingId) {
-        return existingId;
-    }
-
-    const newId = crypto.randomUUID().replace(/-/g, "");
-    localStorage.setItem(PLAYER_ID_KEY, newId);
-    return newId;
 }
 
 export async function submitScoreToLeaderboard(
@@ -22,40 +11,37 @@ export async function submitScoreToLeaderboard(
     options: LeaderboardSubmissionOptions = {}
 ) {
     try {
-        const playerId = getLeaderboardPlayerId();
+        // 1. Arcade-style pop-up asking for their name
+        const playerName = window.prompt(`GAME OVER! Final Score: ${score}\n\nEnter your initials/name for the Global Leaderboard:`);
+        
+        // If they click cancel, just stop and don't save
+        if (!playerName) {
+            console.log("Score submission cancelled.");
+            return;
+        }
 
-        const res = await fetch("/api/leaderboard", {
+        // 2. Connect to your Supabase Database
+        const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/stroop_scores`;
+        const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+        const res = await fetch(url, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": key || "",
+                "Authorization": `Bearer ${key}`
+            },
             body: JSON.stringify({
-                gameId,
-                playerId,
-                score,
-                mode: options.mode,
-                details: options.details,
+                player_name: playerName.substring(0, 15).toUpperCase(), // Keep it short and uppercase like an arcade!
+                score: score
             }),
         });
 
         if (res.ok) {
-            const data = await res.json() as {
-                bestScore?: number;
-                playerName: string;
-                recorded?: boolean;
-            };
-            if (data.recorded !== false) {
-                const event = new CustomEvent('leaderboardUpdated', {
-                    detail: {
-                        gameId,
-                        playerName: data.playerName,
-                        score: data.bestScore ?? score,
-                        mode: options.mode,
-                        details: options.details,
-                    }
-                });
-                window.dispatchEvent(event);
-            }
+            // 3. Teleport them straight to the leaderboard to see their rank
+            window.location.href = "/en/leaderboard";
         } else {
-            console.error("Score submission rejected:", await res.text());
+            console.error("Supabase rejected the score:", await res.text());
         }
     } catch (e) {
         console.error("Failed to submit score", e);
