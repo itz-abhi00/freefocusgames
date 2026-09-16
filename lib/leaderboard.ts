@@ -11,19 +11,16 @@ export async function submitScoreToLeaderboard(
     options: LeaderboardSubmissionOptions = {}
 ) {
     try {
-        // This log tricks TypeScript so it stops complaining about unused variables!
-        console.log("Saving score for game:", gameId, "Options:", options);
+        console.log("Saving score for game:", gameId);
 
-        // 1. Arcade-style pop-up asking for their name
-        const playerName = window.prompt(`GAME OVER! Final Score: ${score}\n\nEnter your initials/name for the Global Leaderboard:`);
+        let playerName = localStorage.getItem("arcade_player_name");
         
-        // If they click cancel, just stop and don't save
         if (!playerName) {
-            console.log("Score submission cancelled.");
-            return;
+            playerName = window.prompt(`GAME OVER! Final Score: ${score}\n\nEnter your initials:`);
         }
+        
+        if (!playerName) return;
 
-        // 2. Connect to your Supabase Database
         const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/stroop_scores`;
         const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -35,18 +32,22 @@ export async function submitScoreToLeaderboard(
                 "Authorization": `Bearer ${key}`
             },
             body: JSON.stringify({
-                player_name: playerName.substring(0, 15).toUpperCase(), // Keep it short and uppercase like an arcade!
+                player_name: playerName.substring(0, 15).toUpperCase(),
                 score: score
             }),
         });
 
         if (res.ok) {
-            // 3. Teleport them straight to the leaderboard to see their rank
-            window.location.href = "/en/leaderboard";
+            // Force the browser to completely reload the leaderboard page so it doesn't use a cached version!
+            window.location.assign("/en/get-started");
         } else {
-            console.error("Supabase rejected the score:", await res.text());
+            // If it fails, loudly tell us why!
+            const errorText = await res.text();
+            window.alert(`DATABASE ERROR: ${errorText}`);
+            console.error("Supabase rejected the score:", errorText);
         }
-    } catch (e) {
+    } catch (e: any) {
+        window.alert(`CRITICAL ERROR: ${e.message}`);
         console.error("Failed to submit score", e);
     }
 }
