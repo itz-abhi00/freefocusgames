@@ -1,23 +1,21 @@
-import { setRequestLocale } from 'next-intl/server';
-import type { Metadata } from "next";
+"use client";
 
-export const dynamic = "force-static";
-export const revalidate = 86400;
-
-export async function generateMetadata(
-    { params }: { params: Promise<{ locale: string }> }
-): Promise<Metadata> {
-    const { locale } = await params;
-    setRequestLocale(locale);
-    return {
-        title: 'Stroop Effect - By Abhijeet',
-        description: 'Test your cognitive reaction time.',
+export default function Home() {
+    // This function runs when they click "INSERT COIN"
+    const handleStartGame = (e: any) => {
+        e.preventDefault();
+        
+        // 1. Ask for their name
+        const playerName = window.prompt("ENTER YOUR PLAYER NAME:");
+        
+        if (playerName) {
+            // 2. Save it to the browser's memory
+            localStorage.setItem("arcade_player_name", playerName);
+            
+            // 3. Send them to the game
+            window.location.href = "/en/games/stroop-effect-test";
+        }
     };
-}
-
-export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
-    const { locale } = await params;
-    setRequestLocale(locale);
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#121212] p-4 relative overflow-hidden">
@@ -35,14 +33,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-6">
-                    <a href={`/${locale}/games/stroop-effect-test`}> 
-                        <button className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#00ff41] text-[#00ff41] uppercase shadow-[6px_6px_0px_#00ff41] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#00ff41] transition-all">
-                            INSERT COIN TO PLAY
-                        </button>
-                    </a>
+                    {/* The game button now triggers our custom function */}
+                    <button 
+                        onClick={handleStartGame}
+                        className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#00ff41] text-[#00ff41] uppercase shadow-[6px_6px_0px_#00ff41] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#00ff41] transition-all cursor-pointer">
+                        INSERT COIN TO PLAY
+                    </button>
 
-                    <a href={`/${locale}/get-started`}> 
-                        <button className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#ffcc00] text-[#ffcc00] uppercase shadow-[6px_6px_0px_#ffcc00] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#ffcc00] transition-all">
+                    <a href="/en/get-started"> 
+                        <button className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#ffcc00] text-[#ffcc00] uppercase shadow-[6px_6px_0px_#ffcc00] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#ffcc00] transition-all cursor-pointer">
                             LEADERBOARD
                         </button>
                     </a>
