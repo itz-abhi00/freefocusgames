@@ -1,8 +1,11 @@
 "use client";
 
+// We import the official Next.js Link component to keep Vercel happy!
+import Link from 'next/link';
+
 export default function Home() {
-    // This function runs when they click "INSERT COIN"
-    const handleStartGame = (e: any) => {
+    // We removed the 'any' and told TypeScript this is a button click event
+    const handleStartGame = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         
         // 1. Ask for their name
@@ -33,18 +36,18 @@ export default function Home() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-6">
-                    {/* The game button now triggers our custom function */}
                     <button 
                         onClick={handleStartGame}
                         className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#00ff41] text-[#00ff41] uppercase shadow-[6px_6px_0px_#00ff41] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#00ff41] transition-all cursor-pointer">
                         INSERT COIN TO PLAY
                     </button>
 
-                    <a href="/en/get-started"> 
+                    {/* Replaced <a> with <Link> */}
+                    <Link href="/en/get-started"> 
                         <button className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#ffcc00] text-[#ffcc00] uppercase shadow-[6px_6px_0px_#ffcc00] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#ffcc00] transition-all cursor-pointer">
                             LEADERBOARD
                         </button>
-                    </a>
+                    </Link>
                 </div>
             </div>
 
