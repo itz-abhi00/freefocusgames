@@ -1,4 +1,3 @@
-import { Link } from "@/i18n/navigation";
 import { setRequestLocale } from 'next-intl/server';
 import type { Metadata } from "next";
 
@@ -36,19 +35,19 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     Are you faster than your friends?
                 </p>
 
-                {/* Arcade Buttons */}
+                {/* Arcade Buttons using standard <a> tags to bypass the strict language router */}
                 <div className="flex flex-col sm:flex-row gap-6">
-                    <Link href="/games/stroop-effect-test"> 
+                    <a href={`/${locale}/games/stroop-effect-test`}> 
                         <button className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#00ff41] text-[#00ff41] uppercase shadow-[6px_6px_0px_#00ff41] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#00ff41] transition-all">
                             INSERT COIN TO PLAY
                         </button>
-                    </Link>
+                    </a>
 
-                    <Link href="/leaderboard"> 
+                    <a href={`/${locale}/leaderboard`}> 
                         <button className="text-2xl md:text-2xl font-bold px-10 py-6 bg-[#222] border-2 border-[#ffcc00] text-[#ffcc00] uppercase shadow-[6px_6px_0px_#ffcc00] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[4px_4px_0px_#ffcc00] transition-all">
                             LEADERBOARD
                         </button>
-                    </Link>
+                    </a>
                 </div>
             </div>
 
