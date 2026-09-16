@@ -11,7 +11,8 @@ export async function submitScoreToLeaderboard(
     options: LeaderboardSubmissionOptions = {}
 ) {
     try {
-        console.log("Saving score for game:", gameId);
+        // We log both variables so TypeScript knows they are officially "used"
+        console.log("Saving score for game:", gameId, "Options:", options);
 
         let playerName = localStorage.getItem("arcade_player_name");
         
@@ -38,16 +39,17 @@ export async function submitScoreToLeaderboard(
         });
 
         if (res.ok) {
-            // Force the browser to completely reload the leaderboard page so it doesn't use a cached version!
+            // Force the browser to reload the page to bypass the cache
             window.location.assign("/en/get-started");
         } else {
-            // If it fails, loudly tell us why!
             const errorText = await res.text();
             window.alert(`DATABASE ERROR: ${errorText}`);
             console.error("Supabase rejected the score:", errorText);
         }
-    } catch (e: any) {
-        window.alert(`CRITICAL ERROR: ${e.message}`);
+    // We use 'unknown' instead of 'any' to satisfy strict TypeScript rules
+    } catch (e: unknown) {
+        const errorMsg = e instanceof Error ? e.message : String(e);
+        window.alert(`CRITICAL ERROR: ${errorMsg}`);
         console.error("Failed to submit score", e);
     }
 }
