@@ -1,21 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
+import React from 'react';
 import { useTranslations } from 'next-intl';
-
-// 动态导入GameDemo组件，避免SSR问题
-const GameDemo = dynamic(() => import('@/app/[locale]/(main)/games/dual-n-back/components/GameDemo'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center p-4">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-2"></div>
-        <p className="text-muted-foreground">Loading Interactive Tutorial...</p>
-      </div>
-    </div>
-  )
-});
 
 interface InteractiveGameDemoProps {
   size?: 'default' | 'compact';
@@ -23,7 +9,6 @@ interface InteractiveGameDemoProps {
 }
 
 export function InteractiveGameDemo({ size = 'default', variant = 'primary' }: InteractiveGameDemoProps) {
-  const [isGameDemoOpen, setIsGameDemoOpen] = useState(false);
   const t = useTranslations('blog.interactiveDemo');
 
   const isCompact = size === 'compact';
@@ -43,21 +28,12 @@ export function InteractiveGameDemo({ size = 'default', variant = 'primary' }: I
           </p>
         )}
         <button
-          onClick={() => setIsGameDemoOpen(true)}
+          onClick={() => window.location.href = "/"}
           className={`px-6 py-3 ${buttonClass} rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 ease-out`}
         >
-          🚀 {t('buttonText')}
+          🚀 Play Stroop Effect Now!
         </button>
       </div>
-
-      <GameDemo
-        isOpen={isGameDemoOpen}
-        onClose={() => setIsGameDemoOpen(false)}
-        onComplete={() => {
-          setIsGameDemoOpen(false);
-          // 可以在这里添加完成教程后的逻辑
-        }}
-      />
     </div>
   );
 }
