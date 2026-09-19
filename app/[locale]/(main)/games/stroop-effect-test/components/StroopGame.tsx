@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl';
 import { ProgressShareModal } from '@/components/ui/ProgressShareModal';
 import { motion, AnimatePresence } from "framer-motion";
 import { submitScoreToLeaderboard } from '@/lib/leaderboard';
+import { createClient } from "@supabase/supabase-js";
 import {
   getProgressInsights,
   ProgressCardData,
@@ -23,6 +24,11 @@ import {
   GameResult,
   generateTrial
 } from '../config';
+
+// Initialize Supabase
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const LEADERBOARD_MISTAKE_PENALTY_MS = 250;
 
@@ -212,8 +218,25 @@ export default function StroopGame() {
       return;
     }
 
-    hasSubmittedLeaderboardRef.current = true;
-    void submitScoreToLeaderboard('stroop-effect-test', stats.adjustedScore);
+    const saveScoreToDatabase = async () => {
+      hasSubmittedLeaderboardRef.current = true;
+      
+      // Get the player's name that we saved on the home screen
+      const playerName = localStorage.getItem("arcade_player_name") || "ANONYMOUS";
+      
+      // Save directly to the live 'scores' table in Supabase
+      const { error } = await supabase.from("scores").insert([
+          { player_name: playerName, score: stats.adjustedScore }
+      ]);
+
+      if (error) {
+        console.error("Failed to save score:", error);
+      } else {
+        toast.success("Score recorded to the mainframe!");
+      }
+    };
+
+    saveScoreToDatabase();
   }, [gameState, stats]);
 
   useEffect(() => {
@@ -438,14 +461,25 @@ export default function StroopGame() {
               </CardContent>
             </Card>
 
-            <div className="flex gap-3 justify-center">
-              <Button onClick={shareResults} variant="outline" className="flex-1">
-                <Share className="w-4 h-4 mr-2" />
-                {shareT('button')}
-              </Button>
-              <Button onClick={resetGame} className="flex-1">
-                <RotateCcw className="w-4 h-4 mr-2" />
-                {t('playAgain')}
+            <div className="flex flex-col gap-3 justify-center mt-6">
+              <div className="flex gap-3 justify-center w-full">
+                <Button onClick={shareResults} variant="outline" className="flex-1">
+                  <Share className="w-4 h-4 mr-2" />
+                  {shareT('button')}
+                </Button>
+                <Button onClick={resetGame} className="flex-1">
+                  <RotateCcw className="w-4 h-4 mr-2" />
+                  {t('playAgain')}
+                </Button>
+              </div>
+              
+              {/* New Back to Leaderboard Button */}
+              <Button 
+                onClick={() => window.location.href = "/"} 
+                variant="default" 
+                className="w-full bg-[#ffcc00] text-black hover:bg-yellow-500 font-bold tracking-widest mt-2"
+              >
+                RETURN TO LEADERBOARD
               </Button>
             </div>
           </motion.div>
