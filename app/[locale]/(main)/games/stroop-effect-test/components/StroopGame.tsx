@@ -9,7 +9,6 @@ import { Share, RotateCcw, Play } from "lucide-react";
 import { useTranslations } from 'next-intl';
 import { ProgressShareModal } from '@/components/ui/ProgressShareModal';
 import { motion, AnimatePresence } from "framer-motion";
-import { submitScoreToLeaderboard } from '@/lib/leaderboard';
 import { createClient } from "@supabase/supabase-js";
 import {
   getProgressInsights,
@@ -473,7 +472,7 @@ export default function StroopGame() {
                 </Button>
               </div>
               
-              {/* New Back to Leaderboard Button */}
+              {/* Back to Leaderboard Button */}
               <Button 
                 onClick={() => window.location.href = "/"} 
                 variant="default" 
