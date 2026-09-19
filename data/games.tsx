@@ -29,15 +29,20 @@ export function getGames(): Game[] {
 }
 
 export function getGame(id: string): Game | undefined {
-  return games.find(game => game.id === id);
+  return games.find((game) => game.id === id);
 }
 
 export function getGameBySlug(slug: string): Game | undefined {
-  return games.find(game => game.slug === slug);
+  return games.find((game) => game.slug === slug);
 }
 
 export function getGamesByCategory(categoryId: string): Game[] {
-  return games.filter(game => game.categories.includes(categoryId));
+  return games.filter((game) => game.categories.includes(categoryId));
+}
+
+export function getGameCategories(gameId: string): string[] {
+  const game = getGame(gameId);
+  return game ? game.categories : [];
 }
 
 export function getFeaturedGames(): Game[] {
